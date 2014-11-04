@@ -3,12 +3,12 @@
     <head>
         <link rel="icon" 
               type="image/png" 
-              href="recycleIcon.jpg">
-        <title>A Better World</title>
+              href="myFavicon.ico">
+        <title>Riddle Missions</title>
         <meta charset="utf-8">
-        <meta name="author" content="Collin Graf">
-        <meta name="description" content="Making the world a better place">
-        <meta name="keywords" content="climate, change, world">
+        <meta name="author" content="Collin Graf, Kevin Delay, Zach Something">
+        <meta name="description" content="Challenging Computer Missions">
+        <meta name="keywords" content="missions, code, source, coding, hacking, hack, game">
         <link rel="stylesheet" type="text/css" href="myStyle.css" media="screen">
         <?php
 // parse the url into htmlentites to remove any suspicous vales that someone
