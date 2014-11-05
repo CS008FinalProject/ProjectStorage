@@ -17,6 +17,20 @@ html, body {
     //background-repeat:repeat-x;
     height: 98%;
 }
+#topBox {
+    float:right;
+    width:200px;
+    font-size: 12px;
+    color:white;
+    background-color:black;
+    font-family:serif;
+    list-style-type: none;
+}
+#topBox a{
+    color:white;
+    display:inline;
+    padding-left:10px;
+}
 #specialList {
     list-style-type: upper-roman;
     font-weight: bold;
