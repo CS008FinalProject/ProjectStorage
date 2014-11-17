@@ -79,9 +79,6 @@ th,td {
     border: 1.5px solid black;
     border-collapse: collapse;
 }
-.map{
-    float: right;
-}
 a {
     display: block;
     width: 200px;
