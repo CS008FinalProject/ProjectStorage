@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE HTML>
 <html lang="en">
     <head>
@@ -13,11 +16,13 @@
         <?php
 // parse the url into htmlentites to remove any suspicous vales that someone
 // may try to pass in. htmlentites helps avoid security issues.
-
         $phpSelf = htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES, "UTF-8");
 
 // break the url up into an array, then pull out just the filename
         $path_parts = pathinfo($phpSelf);
+        if($path_parts[filename] != 'logIn' and $path_parts[filename] != 'createAccount' and $path_parts[filename] != 'index'){
+            include "test.php";
+        }
         include "lib/mail-message.php";
         ?>
     </head>

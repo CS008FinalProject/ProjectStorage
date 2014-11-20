@@ -23,6 +23,7 @@ $yourURL = $domain . $phpSelf;
 // Initialize variables one for each form element
 // in the order they appear on the form
 $password = "";
+$verifyPassword = "";
 $uName = "";
 //%^%^%^%^%^%^%^%^%^%^%^%^%^%^%^%^%^%^%
 //
@@ -40,7 +41,7 @@ $uNameERROR = false;
 //
 // 
 $errorMsg = array();
-$dataRecord = array();
+$dataRecord = array(); //change name
 $mailed = false;
 
 
@@ -68,10 +69,13 @@ if (isset($_POST["btnSubmit"])) {
     // 
     $uName = filter_var($_POST["txtUsername"]);
     $password = filter_var($_POST["pwdPassword"]);
+    $verifyPassword = filter_var($_POST["pwdVerifyPassword"]);
 
 
     $dataRecord[] = $uName;
     $dataRecord[] = $password;
+    $dataRecord[] = 1;
+    $dataRecord[] = 1;
 
 
 
@@ -86,21 +90,26 @@ if (isset($_POST["btnSubmit"])) {
     //  
     // 
     // 
+    if(debug)
+    {
+        print "Error is in the error makers.";
+    }
 
     if ($uName == "") {
         $errorMsg[] = "Please enter your username.";
         $uNameERROR = true;
-    }
-    else if(strlen($uName) <= 4){
+    } else if (strlen($uName) <= 4) {
         $errorMsg[] = "Your username must be at least 5 characters long.";
         $uNameERROR = true;
     }
     if ($password == "") {
         $errorMsg[] = "Please enter a password";
         $passwordERROR = true;
-    }
-    else if(strlen($password) <= 4){
+    } else if (strlen($password) <= 4) {
         $errorMsg[] = "Your password must be at least 5 characters long.";
+        $passwordERROR = true;
+    } else if ($password != $verifyPassword) {
+        $errorMsg[] = "Your password must match in both places.";
         $passwordERROR = true;
     }
 
@@ -124,7 +133,7 @@ if (isset($_POST["btnSubmit"])) {
         // SECTION: 2e Save Data
     //
         // 
-    
+
     $fileExt = ".csv";
 
     $myFileName = "data/registration";
@@ -165,31 +174,26 @@ if (isset($_POST["btnSubmit"])) {
     //
         // 
     // 
-    $message = '<h2>Welcome </h2>';
-
-    foreach ($_POST as $key => $value) {
-        if ($key == "txtUsername") {
-            $message .= "<p>";
-
-            $camelCase = preg_split('/(?=[A-Z])/', substr($key, 3));
-
-            foreach ($camelCase as $one) {
-                $message .= $one . " ";
-            }
-            $message .= htmlentities($value, ENT_QUOTES, "UTF-8") . "!</p>";
-        }
-    }
-
-
-
-
+//    $message = '<h2>Welcome </h2>';
+//
+//    foreach ($_POST as $key => $value) {
+//        if ($key == "txtUsername") {
+//            $message .= "<p>";
+//
+//            $camelCase = preg_split('/(?=[A-Z])/', substr($key, 3));
+//
+//            foreach ($camelCase as $one) {
+//                $message .= $one . " ";
+//            }
+//            $message .= htmlentities($value, ENT_QUOTES, "UTF-8") . "!</p>";
+//        }
+//    }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     //
         // SECTION: 2g Mail to user
     //
         // 
     // 
-
 } // ends if form was submitted.
 //#############################################################################
 //
@@ -200,26 +204,27 @@ if (isset($_POST["btnSubmit"])) {
 // SECTION 3a.
 //
 //
-    //
+//
     //
     // If its the first time coming to the form or there are errors we are going
 // to display the form.
 /* @var $_POST type */
 if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) { // closing of if marked with: end body submit
-    print "<h1>Your information has ";
-    if (!$mailed) {
-        print "not ";
-    }
-    print "been logged</h1>";
-    print "<p>A copy of this message has ";
-    if (!$mailed) {
-        print "not ";
-    }
-    print "been sent</p>";
-    print "<p>To: " . $email . "</p>";
-    print "<p>Mail Message:</p>";
-    print $message;
-    $_SESSION["LoggedIn"] = $uName;
+    print "<h1>Account Creation Successful.</h1>";
+
+//    print "<h1>Your information has ";
+//    if (!$mailed) {
+//        print "not ";
+//    }
+//    print "been logged</h1>";
+//    print "<p>A copy of this message has ";
+//    if (!$mailed) {
+//        print "not ";
+//    }
+//    print "been sent</p>";
+//    print "<p>To: " . $email . "</p>";
+//    print "<p>Mail Message:</p>";
+//    print $message;
 } else {
     //####################################
     //
@@ -257,14 +262,22 @@ if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) { // closing of if marked w
                     <input type="text" id="txtUsername" name="txtUsername"
                            value="<?php print $uName; ?>"
                            tabindex="200" maxlength="50" placeholder="Enter your username"
-                           <?php if ($uNameERROR) print 'class="mistake"'; ?>
+<?php if ($uNameERROR) print 'class="mistake"'; ?>
                            onfocus="this.select()">
                 </label>
                 <label for="pwdPassword" class="required">Password
                     <input type="password" id="pwdPassword" name="pwdPassword"
                            value="<?php print $password; ?>"
                            tabindex="300" maxlength="50" placeholder="Enter a your password"
-                           <?php if ($passwordERROR) print 'class="mistake"'; ?>
+<?php if ($passwordERROR) print 'class="mistake"'; ?>
+                           onfocus="this.select()">
+                </label>
+                <label for="pwdVerifyPassword" class="required">Verify Password
+                    <input type="password" id="pwdVerifyPassword" name="pwdVerifyPassword"
+                           
+                           value="<?php print $verifyPassword; ?>"
+                           tabindex="350" maxlength="50" placeholder="Re-enter a your password"
+<?php if ($passwordERROR) print 'class="mistake"'; ?>
                            onfocus="this.select()">
                 </label>
             </fieldset> <!-- ends contact -->
