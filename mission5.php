@@ -1,12 +1,19 @@
 <?php
 include ("top.php");
 include ("header.php");
-include ("nav.php");
+
 if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) {
     print "<h1>Wrong pass-key. Try again.</h1>";
 }
 ?>
-     <h2>Mission 5</h2>
+<div id="pagetab">
+     <h1>Mission 5</h1>
+</div>
+     <div id="pagebody">
+         
+<?php
+include ("nav.php");
+?>
         <p>
             Description of Mission 5
         </p>
@@ -40,4 +47,5 @@ if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) {
         <?php
             include ("footer.php");
         ?>
+     </div>
 </html>

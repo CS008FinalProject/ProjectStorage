@@ -1,30 +1,15 @@
 <?php
 include ("top.php");
 include ("header.php");
-include ("nav.php");
-
-
-//DELETE THIS LATTER!!!
-$numHints = 1;
-
-
-$pKey1 = "";
-$pKey1ERROR = false;
-$numHintsUsed1 = 0;
-$M1Hint1 = "<p>Check out the source code!</p>";
-if (isset($_POST["btnSubmit"])) {
-    $pKey1 = filter_var($_POST["txtPasskey"]);
-    if ((strcmp($pKey1, "PaSsWoRdFoRmIsSiOn1")) != 0) {
-        $pKey1ERROR = true;
-        print "<h1>Wrong pass-key. Try again.</h1>";
-    }
-    if ((strcmp($pKey1, "PaSsWoRdFoRmIsSiOn1")) == 0) {
-        print "<h1>Correct! Congradulations on passing mission 1.</h2>";
-        $numHints = $numHits + 1;
-    }
-}
 ?>
-<h2>Mission 1</h2>
+
+<div id="pagetab">
+<h1>Mission 1</h1>
+</div>
+<div id="pagebody">
+<?php
+include ("nav.php");
+?>
 <p>
     Description of Mission 1
 </p>
@@ -58,6 +43,29 @@ THE PASSWORD IS "PaSsWoRdFoRmIsSiOn1"
                 <input type="submit" id="btnHint" name="btnHint" value="Hint" tabindex="950" class="button">
             </fieldset> <!-- ends buttons -->
             <?php
+
+
+//DELETE THIS LATTER!!!
+$numHints = 1;
+
+
+$pKey1 = "";
+$pKey1ERROR = false;
+$numHintsUsed1 = 0;
+$M1Hint1 = "<p>Check out the source code!</p>";
+if (isset($_POST["btnSubmit"])) {
+    $pKey1 = filter_var($_POST["txtPasskey"]);
+    if ((strcmp($pKey1, "PaSsWoRdFoRmIsSiOn1")) != 0) {
+        $pKey1ERROR = true;
+        print "<h1>Wrong pass-key. Try again.</h1>";
+    }
+    if ((strcmp($pKey1, "PaSsWoRdFoRmIsSiOn1")) == 0) {
+        print "<h1>Correct! Congradulations on passing mission 1.</h2>";
+        $numHints = $numHits + 1;
+    }
+}
+?>
+            <?php
             if (isset($_POST["btnHint"])) {
                 if ($numHints > 0) {
                     $numHints = $numHints - 1;
@@ -76,4 +84,5 @@ THE PASSWORD IS "PaSsWoRdFoRmIsSiOn1"
 <?php
 include ("footer.php");
 ?>
+</div>
 </html>

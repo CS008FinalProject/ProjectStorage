@@ -1,7 +1,7 @@
 <?php
 include ("top.php");
 include ("header.php");
-include ("nav.php");
+
 $debug = false;
 if (isset($_GET["debug"])) {
     $debug = true;
@@ -109,7 +109,7 @@ if (isset($_POST["btnSubmit"])) {
         $errorMsg[] = "Your password must be at least 5 characters long.";
         $passwordERROR = true;
     } else if ($password != $verifyPassword) {
-        $errorMsg[] = "Your password must match in both places.";
+        $errorMsg[] = "Your password must match in both forms.";
         $passwordERROR = true;
     }
 
@@ -245,12 +245,20 @@ if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) { // closing of if marked w
 // form code here but notice this closing bracket on line 315
 } // end body submit
 ?>
+<div id="pagetab">
+    <h1>Create Account</h1>
+</div>
+<div id="pagebody">
+<?php
+include ("nav.php");
+?>
+
 <article id="main">
     <form action="<?php print $phpSelf; ?>"
           method="post"
           id="frmRegister">
 
-        <h2>Log In</h2>
+        
 
         <p>Please enter a username and password.</p>
 
@@ -294,3 +302,4 @@ if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) { // closing of if marked w
 <?php
 include ("footer.php");
 ?>
+</div>
