@@ -211,6 +211,7 @@ if (isset($_POST["btnSubmit"])) {
 /* @var $_POST type */
 if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) { // closing of if marked with: end body submit
     print "<h1>Account Creation Successful.</h1>";
+    header ("Location: logIn.php");
 
 //    print "<h1>Your information has ";
 //    if (!$mailed) {

@@ -90,20 +90,42 @@ if (isset($_POST["btnSubmit"])) {
     if ($uName == "") {
         $errorMsg[] = "Please enter your username.";
         $uNameERROR = true;
-    }
-    else if(strlen($uName) <= 4){
+    } else if (strlen($uName) <= 4) {
         $errorMsg[] = "Your username must be at least 5 characters long.";
         $uNameERROR = true;
     }
     if ($password == "") {
         $errorMsg[] = "Please enter a password";
         $passwordERROR = true;
-    }
-    else if(strlen($password) <= 4){
+    } else if (strlen($password) <= 4) {
         $errorMsg[] = "Your password must be at least 5 characters long.";
         $passwordERROR = true;
     }
+    $registrationFileName = "data/registration";
+    $fileExt = ".csv";
+    $filename = $registrationFileName . $fileExt;
+    if ($debug)
+        print "\n\n<p>filename is " . $filename;
+    $readFile = fopen($filename, 'r');
+    while (!feof($readFile)) {
+        $records[] = fgetcsv($readFile);
+    }
+    fclose($readFile);
 
+    $usernameDNE = true;
+    foreach ($records as $oneRecord) {
+        if ($oneRecord[0] == $uName) {
+            $usernameDNE = false;
+            if ($oneRecord[1] != $password) {
+                $passwordERROR = true;
+                $errorMsg = "Wrong Password.";
+            }
+        }
+    }
+    if ($usernameDNE) {
+        $uNameERROR = true;
+        $errorMsg = "That username does not exist.";
+    }
 
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -124,61 +146,13 @@ if (isset($_POST["btnSubmit"])) {
         // SECTION: 2e Save Data
     //
         // 
-    
-    $fileExt = ".csv";
-
-    $myFileName = "data/registration";
-
-    $filename = $myFileName . $fileExt;
-
-    if ($debug)
-        print "\n\n<p>filename is " . $filename;
-
-    // now we just open the file for append
-    $file = fopen($filename, 'a');
-
-    // write the forms informations
-    fputcsv($file, $dataRecord);
-
-    // close the file
-    fclose($file);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     //
         // SECTION: 2f Create message
     //
         // 
     // 
-    $message = '<h2>Welcome </h2>';
-
-    foreach ($_POST as $key => $value) {
-        if ($key == "txtUsername") {
-            $message .= "<p>";
-
-            $camelCase = preg_split('/(?=[A-Z])/', substr($key, 3));
-
-            foreach ($camelCase as $one) {
-                $message .= $one . " ";
-            }
-            $message .= htmlentities($value, ENT_QUOTES, "UTF-8") . "!</p>";
-        }
-    }
+    $message = '<h2>Welcome ' . $uName . '!</h2>';
 
 
 
@@ -189,7 +163,6 @@ if (isset($_POST["btnSubmit"])) {
     //
         // 
     // 
-
 } // ends if form was submitted.
 //#############################################################################
 //
@@ -200,26 +173,36 @@ if (isset($_POST["btnSubmit"])) {
 // SECTION 3a.
 //
 //
-    //
-    //
+//
+//
     // If its the first time coming to the form or there are errors we are going
 // to display the form.
 /* @var $_POST type */
+
+?>
+<div id="pagetab">
+    <h1>Log In</h1>
+</div>
+<div id="pagebody">
+<?php
+include ("nav.php");
+?>
+    <article id="main">
+        <form action="<?php print $phpSelf; ?>"
+              method="post"
+              id="frmRegister">
+
+
+            <p>Please enter a username and password.</p>
+<?php
 if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) { // closing of if marked with: end body submit
-    print "<h1>Your information has ";
-    if (!$mailed) {
-        print "not ";
-    }
-    print "been logged</h1>";
-    print "<p>A copy of this message has ";
-    if (!$mailed) {
-        print "not ";
-    }
-    print "been sent</p>";
-    print "<p>To: " . $email . "</p>";
-    print "<p>Mail Message:</p>";
     print $message;
     $_SESSION["LoggedIn"] = $uName;
+    $_SESSION["HintsUsed1"] = 0;
+    $_SESSION["HintsUsed2"] = 0;
+    $_SESSION["HintsUsed3"] = 0;
+    $_SESSION["HintsUsed4"] = 0;
+    $_SESSION["HintsUsed5"] = 0;
 } else {
     //####################################
     //
@@ -240,50 +223,36 @@ if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) { // closing of if marked w
 // form code here but notice this closing bracket on line 315
 } // end body submit
 ?>
-<div id="pagetab">
-<h1>Log In</h1>
-</div>
-<div id="pagebody">
-<?php
-include ("nav.php");
-?>
-<article id="main">
-    <form action="<?php print $phpSelf; ?>"
-          method="post"
-          id="frmRegister">
 
-
-        <p>Please enter a username and password.</p>
-
-        <fieldset class="wrapper">
-            <legend></legend>
-            <fieldset class="contact">
-                <legend>Log In</legend>
-                <label for="txtUsername" class="required">Username
-                    <input type="text" id="txtUsername" name="txtUsername"
-                           value="<?php print $uName; ?>"
-                           tabindex="200" maxlength="50" placeholder="Enter your username"
-                           <?php if ($uNameERROR) print 'class="mistake"'; ?>
-                           onfocus="this.select()">
-                </label>
-                <label for="pwdPassword" class="required">Password
-                    <input type="password" id="pwdPassword" name="pwdPassword"
-                           value="<?php print $password; ?>"
-                           tabindex="300" maxlength="50" placeholder="Enter a your password"
-                           <?php if ($passwordERROR) print 'class="mistake"'; ?>
-                           onfocus="this.select()">
-                </label>
-            </fieldset> <!-- ends contact -->
-
-            <fieldset class="buttons">
+            <fieldset class="wrapper">
                 <legend></legend>
-                <input type="submit" id="btnSubmit" name="btnSubmit" value="Submit" tabindex="900" class="button">
-            </fieldset> <!-- ends buttons -->
+                <fieldset class="contact">
+                    <legend>Log In</legend>
+                    <label for="txtUsername" class="required">Username
+                        <input type="text" id="txtUsername" name="txtUsername"
+                               value="<?php print $uName; ?>"
+                               tabindex="200" maxlength="50" placeholder="Enter your username"
+            <?php if ($uNameERROR) print 'class="mistake"'; ?>
+                               onfocus="this.select()">
+                    </label>
+                    <label for="pwdPassword" class="required">Password
+                        <input type="password" id="pwdPassword" name="pwdPassword"
+                               value="<?php print $password; ?>"
+                               tabindex="300" maxlength="50" placeholder="Enter a your password"
+            <?php if ($passwordERROR) print 'class="mistake"'; ?>
+                               onfocus="this.select()">
+                    </label>
+                </fieldset> <!-- ends contact -->
 
-        </fieldset> <!-- ends wrapper -->
-    </form>
+                <fieldset class="buttons">
+                    <legend></legend>
+                    <input type="submit" id="btnSubmit" name="btnSubmit" value="Submit" tabindex="900" class="button">
+                </fieldset> <!-- ends buttons -->
 
-</article>
+            </fieldset> <!-- ends wrapper -->
+        </form>
+
+    </article>
 <?php
 include ("footer.php");
 ?>

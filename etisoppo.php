@@ -1,23 +1,27 @@
 <?php
 include ("top.php");
 include ("header.php");
-?>
 
+if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) {
+    print "<h1>Wrong pass-key. Try again.</h1>";
+}
+?>
 <div id="pagetab">
-     <h1>Mission 3</h1>
+     <h1>Mission 5</h1>
 </div>
      <div id="pagebody">
+         
 <?php
 include ("nav.php");
 ?>
         <p>
-            Oh no! The passkey has adapted chameleon-like properties!
+            The key can be found in the opposite of the place you think it is.
         </p>
-        <?php
-    $pKey3 = "";
-    $pKey3ERROR = false;
-    $M3Hint1 = "<p>A chameleon is doing its job if you can't see it on first glance</p>";
-$M3Hint2 = "<p>try highlighting the scree to reveal the passkey's hiding spot!</p>";
+                <?php
+    $pKey5 = "";
+    $pKey5ERROR = false;
+    $M5Hint1 = "<p>etisoppo ???</p>";
+$M5Hint2 = "<p>Check out the URL</p>";
     //READING FILE
     $registrationFileName = "data/registration";
     $fileExt = ".csv";
@@ -50,26 +54,26 @@ $M3Hint2 = "<p>try highlighting the scree to reveal the passkey's hiding spot!</
     if (isset($_POST["btnHint"])) {
         if ($numHints > 0) {
             $numHints = $numHints - 1;
-            $_SESSION["HintsUsed3"] ++;
+            $_SESSION["HintsUsed5"] ++;
             if(debug)
-                print "<p>" . $_SESSION["HintsUsed3"] . "</p>";
+                print "<p>" . $_SESSION["HintsUsed5"] . "</p>";
         }
     }
-    if ($_SESSION["HintsUsed3"] >= 1) {
-        print $M3Hint1;
+    if ($_SESSION["HintsUsed5"] >= 1) {
+        print $M5Hint1;
     }
-    if ($_SESSION["HintsUsed3"] >= 2) {
-        print $M3Hint2;
+    if ($_SESSION["HintsUsed5"] >= 2) {
+        print $M5Hint2;
     }
 
     if (isset($_POST["btnSubmit"])) {
-        $pKey3 = filter_var($_POST["txtPasskey"]);
-        if ((strcmp($pKey3, "cAMofLAge923")) != 0) {
-            $pKey3ERROR = true;
+        $pKey5 = filter_var($_POST["txtPasskey"]);
+        if ((strcmp($pKey5, "OppositeDay14")) != 0) {
+            $pKey5ERROR = true;
             print "<h1>Wrong pass-key. Try again.</h1>";
         }
-        if ((strcmp($pKey3, "cAMofLAge923")) == 0) {
-            print "<h1>Correct! Congradulations on passing mission 3.</h2>";
+        if ((strcmp($pKey5, "OppositeDay14")) == 0) {
+            print "<h1>Correct! Congradulations on passing mission 5.</h2>";
             $numHints = $numHits + 1;
             $currMission++;
         }
@@ -105,9 +109,9 @@ $M3Hint2 = "<p>try highlighting the scree to reveal the passkey's hiding spot!</
                 <legend>Enter the pass-key to advance to the next mission.</legend>
                 <label for="txtPasskey" class="required">Pass-key
                     <input type="text" id="txtPasskey" name="txtPasskey"
-                           value="<?php print $pKey3; ?>"
+                           value="<?php print $pKey5; ?>"
                            tabindex="200" maxlength="50" placeholder="Enter the pass-key"
-                           <?php if ($pKey3ERROR) print 'class="mistake"'; ?>
+                           <?php if ($pKey5ERROR) print 'class="mistake"'; ?>
                            onfocus="this.select()">
                 </label>
             </fieldset> <!-- ends contact -->
@@ -115,8 +119,8 @@ $M3Hint2 = "<p>try highlighting the scree to reveal the passkey's hiding spot!</
             <fieldset class="buttons">
                 <legend></legend>
                 <input type="submit" id="btnSubmit" name="btnSubmit" value="Submit" tabindex="900" class="button">
-                <input type="submit" id="btnHint" name="btnHint" value="Hint" tabindex="950" class="button">
             </fieldset> <!-- ends buttons -->
+
         </fieldset> <!-- ends wrapper -->
     </form>
 
